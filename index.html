@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg-color: #f8f8f8;
+            --text-color: #1a1a1a;
+            --accent-color: #E03E3E;
+            --secondary-color: #333333;
+            --card-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --button-bg: #e6e6e6;
+            --button-text: #1a1a1a;
+            --border-color: #eaeaea;
+            --accent-soft: rgba(224, 62, 62, 0.1);
+            --blob-color-1: rgba(224, 62, 62, 0.05);
+            --blob-color-2: rgba(53, 124, 255, 0.05);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --accent-color: #E03E3E;
+            --secondary-color: #a0a0a0;
+            --card-bg: #1e1e1e;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --button-bg: #333333;
+            --button-text: #f0f0f0;
+            --border-color: #333333;
+            --accent-soft: rgba(224, 62, 62, 0.2);
+            --blob-color-1: rgba(224, 62, 62, 0.1);
+            --blob-color-2: rgba(53, 124, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 300ms, color 300ms, border-color 300ms, box-shadow 300ms;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particles.js Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* 3D Card Effects */
+        .card-content {
+            position: relative;
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+        }
+        
+        .project-image,
+        .project-info h3,
+        .project-tags,
+        .view-github {
+            transition: transform 0.2s ease-out;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: var(--card-bg);
+            border-radius: 30px;
+            padding: 5px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 30px;
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-switch {
+            position: relative;
+            width: 50px;
+            height: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            transition: all 300ms;
+        }
+
+        .theme-switch::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            top: 2px;
+            left: 2px;
+            transition: transform 300ms;
+        }
+
+        [data-theme="dark"] .theme-switch::after {
+            transform: translateX(30px);
+        }
+
+        /* Social Media Icons */
+        .social-links {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .social-icon {
+            background-color: var(--card-bg);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            top: 0;
+            left: 0;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            color: white;
+        }
+
+        .social-icon:hover::before {
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .hero-shape {
+            position: absolute;
+            opacity: 0.2;
+        }
+
+        .hero-shape-1 {
+            top: 20%;
+            left: 10%;
+            width: 70px;
+            height: 70px;
+            background-color: var(--accent-color);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero-shape-2 {
+            top: 60%;
+            right: 10%;
+            width: 100px;
+            height: 100px;
+            background-color: #357CFF;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: float 10s ease-in-out infinite alternate;
+        }
+
+        .hero-shape-3 {
+            bottom: 15%;
+            left: 20%;
+            width: 50px;
+            height: 50px;
+            background-color: #F7DF1E;
+            border-radius: 50% 50% 50% 70%;
+            animation: float 7s ease-in-out infinite 1s alternate-reverse;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(15px, -15px) rotate(10deg);
+            }
+            100% {
+                transform: translate(-15px, 15px) rotate(-10deg);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 0.2s;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 10px;
+            background-color: var(--accent-color);
+            bottom: 5px;
+            left: 0;
+            z-index: -1;
+            transform: skewX(-15deg);
+        }
+
+        .hero h2 {
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 0.6s;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 1s;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            text-decoration: none;
+            font-weight: 500;
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%) skewX(-15deg);
+            transition: transform 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%) skewX(-15deg);
+        }
+
+        /* Mouse Scroll Indicator */
+        .mouse-scroll {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--text-color);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards 1.5s;
+        }
+
+        .mouse-scroll::before {
+            content: '';
+            width: 6px;
+            height: 10px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+            margin-top: 5px;
+            animation: scroll 2s ease-in-out infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        /* Project Cards */
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            cursor: pointer;
+            transform-style: flat; /* Fix for 3D effect */
+        }
+
+        .project-card.visible {
+            animation: fadeIn 0.8s forwards;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        /* Card inner container for 3D effect */
+        .card-3d-container {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+            z-index: 1;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 0% 100%);
+            transition: transform 0.5s;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-info p {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .project-tag {
+            padding: 5px 10px;
+            background-color: var(--button-bg);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover .project-tag {
+            background-color: var(--accent-soft);
+            transform: translateY(-2px);
+        }
+
+        /* View GitHub button */
+        .view-github {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(10px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .view-github::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s;
+        }
+
+        .view-github:hover::before {
+            transform: translateX(0);
+        }
+
+        .project-card:hover .view-github {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .about-container {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image {
+            flex: 0.7;
+            max-width: 300px;
+            border: 5px solid var(--accent-color);
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+            overflow: hidden;
+            box-shadow: 10px 10px 0 var(--shadow-color);
+            opacity: 0;
+            transform: translateX(-20px);
+            position: relative;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-color) 0%, transparent 100%);
+            opacity: 0.2;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+
+        .about-image:hover::before {
+            opacity: 0.4;
+        }
+
+        .about-image.visible {
+            animation: fadeInSide 0.8s forwards;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(20px);
+            position: relative;
+        }
+
+        .emoji-list {
+            margin-top: 1.5rem;
+        }
+
+        .emoji-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .emoji {
+            font-size: 1.6rem;
+            margin-right: 15px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .emoji-item:hover .emoji {
+            transform: scale(1.3) rotate(15deg);
+        }
+
+        .about-content.visible {
+            animation: fadeInSide 0.8s forwards;
+        }
+
+        .about-content h2 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-content h2::after {
+            content: '👋';
+            font-size: 2rem;
+            margin-left: 10px;
+            animation: wave 2.5s ease-in-out infinite;
+            transform-origin: 70% 70%;
+            display: inline-block;
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .about-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            padding: 8px 15px;
+            background-color: var(--button-bg);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .skill-item:hover {
+            background-color: var(--accent-soft);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 10px var(--shadow-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInSide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+
+            .about-container {
+                flex-direction: column;
+            }
+
+            .about-image, .about-content {
+                width: 100%;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+                width: 80%;
+                max-width: 300px;
+            }
+            .about-image {
+                max-width: 250px; /* Even smaller on mobile */
+                margin: 0 auto 30px; /* Center it and add bottom margin */
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles.js Background -->
+    <div id="particles-js"></div>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" aria-label="Toggle theme" role="button" tabindex="0">
+        <div class="theme-switch"></div>
+    </div>
+
+    <!-- Social Media Icons -->
+    <div class="social-links">
+        <a href="https://github.com/Justustin" class="social-icon" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="#" class="social-icon" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=justin.hidayat123@gmail.com" class="social-icon" aria-label="Email">
+            <i class="fas fa-envelope"></i>
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-shapes">
+            <div class="hero-shape hero-shape-1"></div>
+            <div class="hero-shape hero-shape-2"></div>
+            <div class="hero-shape hero-shape-3"></div>
+        </div>
+        <h1>Justin Hidayat</h1>
+        <h2>Computer Science Undergraduate</h2>
+        <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#about" class="btn">About Me</a>
+        </div>
+        <div class="mouse-scroll" aria-hidden="true"></div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="project-grid">
+                <!-- Project 1 -->
+                <div class="project-card" data-repo="robot-arm-opencv">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project2-thumbnail.jpg" alt="Project 1">
+                            </div>
+                            <div class="project-info">
+                                <h3>Robot Arm with OpenCV</h3>
+                                <p>Made a robot arm using 3D printed parts, use OpenCV to move objects.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">python</span>
+                                    <span class="project-tag">Lerobot</span>
+                                    <span class="project-tag">OpenCV</span>
+                                </div>
+                                <a href="https://github.com/Justustin/robot-arm-opencv" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card" data-repo="lstm-stock-predictor">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project2-thumbnail.jpg" alt="Project 1">
+                            </div>
+                            <div class="project-info">
+                                <h3>LSTM Stock Price Predictor</h3>
+                                <p>This project utilizes an LSTM neural network to predict Apple's stock prices using historical data. It processes time series data and generates future price predictions.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Python</span>
+                                    <span class="project-tag">Pytorch</span>
+                                </div>
+                                <a href="https://github.com/Justustin/apple-stock-prediction" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-repo="qtrvsim-v-extension">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project5-thumbnail.png" alt="Project 2">
+                            </div>
+                            <div class="project-info">
+                                <h3>QTRVSIM-V extension</h3>
+                                <p>Added a vector extension to qtrvsim, enhancing the simulators capaibility for educational purposes.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">C++</span>
+                                    <span class="project-tag">Linux</span>
+                                </div>
+                                <a href="https://github.com/Justustin/qtrvsim-rvv" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 4 -->
+                <div class="project-card" data-repo="movie-discovery-website">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project3-thumbnail.png" alt="Project 2">
+                            </div>
+                            <div class="project-info">
+                                <h3>Movie Discovery Website</h3>
+                                <p>A dynamic web app that fetches popular movies using the TMDB API. It allows users to search for movies, ratings, and overviews, with color-coded ratings to highlight top films.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                    <span class="project-tag">JavaScript</span>
+                                </div>
+                                <a href="https://github.com/Justustin/movie-app" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 5 -->
+                <div class="project-card" data-repo="library-system">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project6-thumbnail.png" alt="Project 2">
+                            </div>
+                            <div class="project-info">
+                                <h3>Library system</h3>
+                                <p>Made a website with a security system for admin and users, where both have different permissions.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">HTML</span>
+                                    <span class="project-tag">CSS</span>
+                                    <span class="project-tag">JavaScript</span>
+                                    <span class="project-tag">MySQL</span>
+                                </div>
+                                <a href="https://github.com/Justustin/CUHKSZ-LIBRARY-SYSTEM" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 6 -->
+                <div class="project-card" data-repo="ecg-device">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project3-thumbnail.png" alt="Project 2">
+                            </div>
+                            <div class="project-info">
+                                <h3>ECG Device</h3>
+                                <p>Made an electrocardiogram using an ESP32 and some modules, use Arduino to get the data from hardware and use matlab to process and display the data.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Arduino</span>
+                                    <span class="project-tag">Matlab</span>
+                                </div>
+                                <a href="https://github.com/Justustin/ecg-device" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 7 -->
+                <div class="project-card" data-repo="digit-recognition-knn">
+                    <div class="card-3d-container">
+                        <div class="card-content">
+                            <div class="project-image">
+                                <img src="images/project4-thumbnail.jpg" alt="Project 3">
+                            </div>
+                            <div class="project-info">
+                                <h3>Handwritten Digit Recognition with KNN and OpenCV</h3>
+                                <p>This project utilizes K-Nearest Neighbors (KNN) and OpenCV to recognize handwritten digits from the MNIST dataset.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">Python</span>
+                                    <span class="project-tag">Pytorch</span>
+                                </div>
+                                <a href="https://github.com/Justustin/HandwrittenDigitRecognition" class="view-github">View on GitHub <i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-container">
+                <div class="about-image">
+                    <img src="images/pasfoto.jpg" alt="Profile Photo">
+                </div>
+                <div class="about-content">
+                    <h2>Hello there</h2>
+                    <p>I'm a junior at The Chinese University of Hong Kong.</p>
+                    
+                    <div class="emoji-list">
+                        <div class="emoji-item">
+                            <span class="emoji">💻</span> I develop software with a focus on efficiency and practicality
+                        </div>
+                        <div class="emoji-item">
+                            <span class="emoji">🤖</span> I build and program robotic systems using computer vision
+                        </div>
+                        <div class="emoji-item">
+                            <span class="emoji">⚙️</span> I'm passionate about low-level system design and optimization
+                        </div>
+                        <div class="emoji-item">
+                            <span class="emoji">🏃</span> When not coding, I enjoy running and swimming to clear my mind
+                        </div>
+                    </div>
+                    
+                    <div class="skill-list">
+                        <span class="skill-item">HTML5</span>
+                        <span class="skill-item">CSS3</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">React</span>
+                        <span class="skill-item">Node.js</span>
+                        <span class="skill-item">UI/UX Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+        // Set initial theme based on user preference
+        if (prefersDarkScheme.matches) {
+            document.body.setAttribute('data-theme', 'dark');
+        } else {
+            document.body.setAttribute('data-theme', 'light');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                document.body.setAttribute('data-theme', 'dark');
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+            }
+            
+            // Update particles colors when theme changes
+            setTimeout(() => {
+                if (window.pJSDom && window.pJSDom[0]) {
+                    const newColor = document.body.getAttribute('data-theme') === 'dark' ? "#a0a0a0" : "#333333";
+                    window.pJSDom[0].pJS.particles.line_linked.color = newColor;
+                    window.pJSDom[0].pJS.fn.particlesRefresh();
+                }
+            }, 300);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe project cards
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Observe about section elements
+        observer.observe(document.querySelector('.about-image'));
+        observer.observe(document.querySelector('.about-content'));
+        
+        // Initialize particles.js
+        particlesJS('particles-js', {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": document.body.getAttribute('data-theme') === 'dark' ? "#e03e3e" : "#e03e3e"
+            },
+            "shape": {
+              "type": "circle",
+              "stroke": {
+                "width": 0,
+                "color": "#000000"
+              },
+              "polygon": {
+                "nb_sides": 5
+              }
+            },
+            "opacity": {
+              "value": 0.5,
+              "random": false,
+              "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+              }
+            },
+            "size": {
+              "value": 3,
+              "random": true,
+              "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+              }
+            },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": document.body.getAttribute('data-theme') === 'dark' ? "#a0a0a0" : "#333333",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 3,
+              "direction": "none",
+              "random": false,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false,
+              "attract": {
+                "enable": true,
+                "rotateX": 600,
+                "rotateY": 1200
+              }
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": {
+                "enable": true,
+                "mode": "repulse"
+              },
+              "onclick": {
+                "enable": true,
+                "mode": "push"
+              },
+              "resize": true
+            },
+            "modes": {
+              "grab": {
+                "distance": 400,
+                "line_linked": {
+                  "opacity": 1
+                }
+              },
+              "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+              },
+              "repulse": {
+                "distance": 100,
+                "duration": 0.4
+              },
+              "push": {
+                "particles_nb": 4
+              },
+              "remove": {
+                "particles_nb": 2
+              }
+            }
+          },
+          "retina_detect": true
+        });
+
+        // Project Card Click Functionality
+        document.querySelectorAll('.project-card').forEach(card => {
+            const cardContent = card.querySelector('.card-content');
+            
+            // 3D card tilt effect based on mouse position
+            card.addEventListener('mousemove', function(e) {
+                const cardRect = this.getBoundingClientRect();
+                const centerX = cardRect.left + cardRect.width / 2;
+                const centerY = cardRect.top + cardRect.height / 2;
+                
+                // Calculate rotation based on mouse position (max 15 degrees)
+                const rotateY = ((e.clientX - centerX) / (cardRect.width / 2)) * 10;
+                const rotateX = -((e.clientY - centerY) / (cardRect.height / 2)) * 10;
+                
+                // Apply transform to card content
+                cardContent.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) translateZ(20px)`;
+                
+                // Add depth to child elements
+                const title = card.querySelector('h3');
+                const tags = card.querySelector('.project-tags');
+                const button = card.querySelector('.view-github');
+                
+                if (title) title.style.transform = `translateZ(40px)`;
+                if (tags) tags.style.transform = `translateZ(30px)`;
+                if (button) button.style.transform = `translateZ(50px)`;
+            });
+            
+            // Reset card position when mouse leaves
+            card.addEventListener('mouseleave', function() {
+                cardContent.style.transform = `rotateY(0deg) rotateX(0deg) translateZ(0px)`;
+                
+                const title = card.querySelector('h3');
+                const tags = card.querySelector('.project-tags');
+                const button = card.querySelector('.view-github');
+                
+                if (title) title.style.transform = 'translateZ(0)';
+                if (tags) tags.style.transform = 'translateZ(0)';
+                if (button) button.style.transform = 'translateZ(0)';
+            });
+            
+            // Click handler for navigation
+            card.addEventListener('click', function(e) {
+                // If they clicked the "View on GitHub" link, don't override it
+                if (e.target.classList.contains('view-github') || e.target.closest('.view-github')) {
+                    return;
+                }
+
+                // Get the repository name from data attribute
+                const repoName = this.getAttribute('data-repo');
+                
+                // Redirect to the GitHub repository README
+                window.location.href = `https://github.com/Justustin/${repoName}#readme`;
+            });
+        });
+    </script>
